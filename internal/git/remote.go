@@ -14,16 +14,25 @@ func IsUrl(str string) bool {
 	return err == nil && u.Scheme != "" && u.Host != ""
 }
 
+func getRepoNameFromURL(URL string) string {
+	u, err := url.Parse(URL)
+	if err != nil {
+		log.Fatalf("Failed to parse URL: %s", URL)
+	}
+	return u.Path
+}
+
 func CloneAction(URL string) {
 	if !IsUrl(URL) {
 		log.Fatalf("Invalid URL: %s", URL)
 	}
 	conf := config.ReadConfig()
-	_, err := git.PlainClone(conf.ProjectDirectory, false, &git.CloneOptions{
+	repositoryPath := conf.ProjectDirectory + getRepoNameFromURL(URL)
+	_, err := git.PlainClone(repositoryPath, false, &git.CloneOptions{
 		URL:      URL,
 		Progress: os.Stdout,
 	})
 	if err != nil {
-		log.Fatal("Failed to clone repository: ", err)
+		log.Fatalf("Failed to clone repository: %s to %s | %v", URL, repositoryPath, err)
 	}
 }

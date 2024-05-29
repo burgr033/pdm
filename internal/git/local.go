@@ -1,0 +1,4 @@
+package git
+
+func initRepository() {
+}
