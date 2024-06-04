@@ -6,3 +6,4 @@
 *.out
 go.work
 build/
+testProjectFolder/
