@@ -20,6 +20,7 @@ type Config struct {
 // It contains the name, category, origin, and state of the project.
 type Project struct {
 	Name     string `yaml:"name"`
+	ID       int    `yaml:"ID"`
 	Category string `yaml:"category"`
 	Origin   string `yaml:"origin"`
 	State    string `yaml:"state"`
@@ -50,7 +51,7 @@ func WriteConfig(conf *Config) {
 	if err != nil {
 		log.Fatalf("Marshal: %v", err)
 	}
-	err = os.WriteFile(getConfigPath(), data, 0644)
+	err = os.WriteFile(getConfigPath(), data, 0o644)
 	if err != nil {
 		log.Fatalf("WriteFile: %v", err)
 	}
@@ -70,4 +71,24 @@ func ReadConfig() *Config {
 		log.Fatalf("Unmarshal: %v", err)
 	}
 	return &conf
+}
+
+func GetNewID(conf *Config) int {
+	if len(conf.Projects) == 0 {
+		return 1
+	}
+	lastID := conf.Projects[len(conf.Projects)-1].ID
+	return lastID + 1
+}
+
+func AddProjectToConfig(config *Config, projectName string, projectOrigin string, projectCategory string) {
+	newProject := Project{
+		Name:     projectName,
+		Category: projectCategory,
+		Origin:   projectOrigin,
+		ID:       GetNewID(config),
+		State:    "new",
+	}
+	config.Projects = append(config.Projects, newProject)
+	WriteConfig(config)
 }
