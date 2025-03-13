@@ -1,6 +1,7 @@
 module github.com/burgr033/pdm
 
 go 1.22.3
+toolchain go1.23.7
 
 require (
 	github.com/adrg/xdg v0.4.0
@@ -33,10 +34,10 @@ require (
 	github.com/skeema/knownhosts v1.2.2 // indirect
 	github.com/urfave/cli/v2 v2.27.2
 	github.com/xanzy/ssh-agent v0.3.3 // indirect
-	golang.org/x/crypto v0.21.0 // indirect
+	golang.org/x/crypto v0.35.0 // indirect
 	golang.org/x/mod v0.12.0 // indirect
-	golang.org/x/net v0.22.0 // indirect
-	golang.org/x/sys v0.18.0 // indirect
+	golang.org/x/net v0.36.0 // indirect
+	golang.org/x/sys v0.30.0 // indirect
 	golang.org/x/tools v0.13.0 // indirect
 	gopkg.in/warnings.v0 v0.1.2 // indirect
 )
